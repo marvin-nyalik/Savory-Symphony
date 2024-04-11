@@ -1,10 +1,12 @@
-import {View, Text} from 'react-native';
+import {View, Text, SafeAreaView} from 'react-native';
 
 const HomeScreen = () => {
   return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
+    <SafeAreaView className="bg-black h-screen w-full mx-auto">
+      <View className='w-90'>
+        <Text className='text-white'>Home Screen</Text>
+      </View>
+    </SafeAreaView>
   )
 }
 
