@@ -25,5 +25,5 @@ export default function Layout() {
 
   if (!fontsLoaded && !error) return null;
 
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
