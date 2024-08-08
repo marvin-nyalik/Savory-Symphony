@@ -1,14 +1,56 @@
 import { View, Text, ScrollView, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState} from "react";
+import React, { useEffect, useState } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import images from "../constants/images";
 import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import { StatusBar } from "expo-status-bar";
 import Categories from "../components/Categories";
+import Recipes from "../components/Recipes";
+import axios from "axios";
 
 const HOME = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
+  const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const getRecipes = async (category = "Beef") => {
+    try {
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      if (response && response.data.meals) {
+        setRecipes(response.data.meals);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/categories.php`
+      );
+      if (response && response.data) {
+        setCategories(response.data.categories);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    setRecipes([]);
+    getRecipes(category);
+  };
+
+  useEffect(() => {
+    getRecipes();
+    getCategories();
+  }, []);
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar style="dark" />
@@ -47,7 +89,7 @@ const HOME = () => {
             style={{ fontSize: hp(3) }}
             className="text-neutral-600 font-psemibold"
           >
-            Stay at <Text className="text-amber-400">home</Text>
+            Stay at <Text className="text-amber-400">Home</Text>
           </Text>
         </View>
 
@@ -69,7 +111,16 @@ const HOME = () => {
         </View>
         {/* categories */}
         <View>
-          <Categories activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>
+          <Categories
+            categories={categories}
+            activeCategory={activeCategory}
+            handleCategoryChange={handleCategoryChange}
+          />
+        </View>
+
+        {/* Recipes */}
+        <View>
+          <Recipes categories={categories} recipes={recipes} />
         </View>
       </ScrollView>
     </SafeAreaView>
