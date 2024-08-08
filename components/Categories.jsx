@@ -11,8 +11,8 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import useFetch from "../hooks/useFetch";
 
-const Categories = ({ activeCategory, setActiveCategory }) => {
-  const { data: categories, loading, error } = useFetch();
+const Categories = ({ categories, activeCategory, handleCategoryChange }) => {
+  const { loading, error } = useFetch();
 
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
@@ -37,7 +37,7 @@ const Categories = ({ activeCategory, setActiveCategory }) => {
               <TouchableOpacity
                 key={cat.idCategory}
                 className="flex items-center space-y-1"
-                onPress={() => setActiveCategory(cat.strCategory)}
+                onPress={() => handleCategoryChange(cat.strCategory)}
               >
                 <View className={`rounded-full p-[6px] ${activeBtnClass}`}>
                   <Image
