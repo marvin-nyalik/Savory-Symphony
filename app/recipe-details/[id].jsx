@@ -101,7 +101,10 @@ const index = () => {
           </Animated.View>
 
           {/* name and area */}
-          <Animated.View entering={FadeInDown.duration(1200).springify().damping(15)} className="px-4 flex justify-between space-y-4 pt-8 mb-2">
+          <Animated.View
+            entering={FadeInDown.duration(300).springify().damping(15)}
+            className="px-4 flex justify-between space-y-4 pt-8 mb-2"
+          >
             <View className="space-y-2">
               <Text className="font-pbold text-neutral-700 flex-1">
                 {meal.strMeal}
@@ -114,7 +117,13 @@ const index = () => {
           </Animated.View>
 
           {/* misc */}
-          <Animated.View entering={FadeInDown.delay(300).duration(1200).springify().damping(15)} className="flex-row justify-around">
+          <Animated.View
+            entering={FadeInDown.delay(100)
+              .duration(700)
+              .springify()
+              .damping(15)}
+            className="flex-row justify-around"
+          >
             <MealInfo
               title={35}
               subtitle={"Mins"}
@@ -150,11 +159,34 @@ const index = () => {
           </Animated.View>
 
           {/* ingredients */}
-          <Ingredients ingredientsIdx={ingredientsIdx} meal={meal} />
+          <Animated.View
+            entering={FadeInDown.delay(200)
+              .duration(700)
+              .springify()
+              .damping(15)}
+          >
+            <Ingredients ingredientsIdx={ingredientsIdx} meal={meal} />
+          </Animated.View>
+
           {/* instructions */}
-          <Instructions meal={meal} />
+          <Animated.View
+            entering={FadeInDown.delay(300)
+              .duration(700)
+              .springify()
+              .damping(15)}
+          >
+            <Instructions meal={meal} />
+          </Animated.View>
+
           {/* Video */}
-          {meal.strYoutube && <Video meal={meal} />}
+          <Animated.View
+            entering={FadeInDown.delay(400)
+              .duration(700)
+              .springify()
+              .damping(15)}
+          >
+            {meal.strYoutube && <Video meal={meal} />}
+          </Animated.View>
         </View>
       ) : (
         <Text>Nothing to show</Text>
