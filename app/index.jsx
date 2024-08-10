@@ -48,16 +48,16 @@ export default function Welcome() {
       </Animated.View>
       <View className="space-y-2 items-center">
         <Text
-          style={{ fontSize: hp(7) }}
+          style={{ fontSize: hp(4) }}
           className="font-pbold text-white tracking-widest"
         >
-          Foody
+          Cook Smart
         </Text>
         <Text
           style={{ fontSize: hp(2) }}
           className="font-psemibold tracking-widest text-white"
         >
-          Food is always right
+          A smart chef, A smart recipe !
         </Text>
       </View>
     </View>
