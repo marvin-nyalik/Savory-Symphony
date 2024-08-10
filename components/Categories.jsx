@@ -10,6 +10,7 @@ import React from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import useFetch from "../hooks/useFetch";
+import Loading from "./Loading";
 
 const Categories = ({ categories, activeCategory, handleCategoryChange }) => {
   const { loading, error } = useFetch();
@@ -56,7 +57,7 @@ const Categories = ({ categories, activeCategory, handleCategoryChange }) => {
             );
           })
         ) : (
-          <Text>No categories available</Text>
+          <Loading />
         )}
       </ScrollView>
     </Animated.View>

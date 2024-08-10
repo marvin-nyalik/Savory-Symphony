@@ -47,8 +47,8 @@ const HOME = () => {
   };
 
   useEffect(() => {
-    getRecipes();
     getCategories();
+    getRecipes();
   }, []);
 
   return (

@@ -1,4 +1,10 @@
-import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { Image } from 'expo-image';
 import React from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MasonryList from "@react-native-seoul/masonry-list";
@@ -7,7 +13,7 @@ import { router } from "expo-router";
 
 const RecipeCard = ({ item, index }) => {
   let isEven = index % 2 == 0;
-  let isThird = index % 3 == 0;
+  let isThird = index % 3 === 0;
   return (
     <Animated.View
       entering={FadeInDown.delay(index * 100)
@@ -19,11 +25,11 @@ const RecipeCard = ({ item, index }) => {
         activeOpacity={0.5}
         style={{
           width: "100%",
-          paddingLeft: isEven ? 0 : 8,
-          paddingRight: isEven ? 8 : 0,
+          paddingLeft: isEven ? 0 : 7,
+          paddingRight: isEven ? 7 : 0,
         }}
         className="flex justify-center mb-4 space-y-1"
-        onPress={()=> router.push(`/recipe-details/${item.idMeal}`) }
+        onPress={() => router.push(`/recipe-details/${item.idMeal}`)}
       >
         <Image
           source={{ uri: item.strMealThumb }}
@@ -56,7 +62,11 @@ const Recipes = ({ categories, recipes }) => {
         Recipes
       </Text>
       <View>
-        {categories.length === 0 ? null : (
+        {categories.length === 0 ? (
+          <View className="flex-1 justify-center items-center">
+            <ActivityIndicator size="large" className="mt-16" color={'#f59e0b'} />
+          </View>
+        ) : (
           <MasonryList
             data={recipes}
             keyExtractor={(item) => item.idMeal}
