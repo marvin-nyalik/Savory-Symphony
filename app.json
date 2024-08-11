@@ -2,7 +2,7 @@
   "expo": {
     "name": "Savory-Symphony",
     "slug": "Savory-Symphony",
-    "scheme":"savory-symphony",
+    "scheme": "savory-symphony",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.otienomarvin.SavorySymphony"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -27,6 +28,14 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b0b13a97-7b08-461c-91ba-87e6cf9a3189"
+      }
+    }
   }
 }

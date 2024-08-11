@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -8,11 +15,13 @@ import { StatusBar } from "expo-status-bar";
 import Categories from "../components/Categories";
 import Recipes from "../components/Recipes";
 import axios from "axios";
+import { router } from "expo-router";
 
 const HOME = () => {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [query, setQuery] = useState("");
 
   const getRecipes = async (category = "Beef") => {
     try {
@@ -100,14 +109,24 @@ const HOME = () => {
             placeholderTextColor={"gray"}
             style={{ fontSize: hp(1.7) }}
             className="flex-1 text-pthin mb-1 pl-3 tracking-wider"
+            onChangeText={(text) => setQuery(text)}
+            value={query}
           />
-          <View className="bg-white rounded-full p-3">
+          <TouchableOpacity
+            className="bg-white rounded-full p-3"
+            onPress={() => {
+              const trimmedQuery = query.trim();
+              if (trimmedQuery) {
+                router.push(`/recipe-details/${trimmedQuery}`);
+              }
+            }}
+          >
             <MagnifyingGlassIcon
               size={hp(2.5)}
               strokeWidth={3}
               color={"gray"}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         {/* categories */}
         <View>

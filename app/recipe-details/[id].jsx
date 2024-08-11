@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -13,6 +19,7 @@ import {
   Square3Stack3DIcon,
   UsersIcon,
 } from "react-native-heroicons/outline";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { HeartIcon } from "react-native-heroicons/solid";
 import Loading from "../../components/Loading";
 import axios from "axios";
@@ -27,17 +34,28 @@ const index = () => {
   const [meal, setMeal] = useState(null);
   const [isFavourite, setIsFavourite] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const getMeal = async (id) => {
     try {
-      const response = await axios.get(
-        `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-      );
-      if (response && response.data) {
+      let response;
+      if (isNaN(id)) {
+        response = await axios.get(
+          `https://themealdb.com/api/json/v1/1/search.php?s=${id}`
+        );
+      } else {
+        response = await axios.get(
+          `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+        );
+      }
+
+      if (response && response.data && response.data.meals) {
         setMeal(response.data.meals[0]);
+      } else {
+        throw new Error("No meal found for the given input.");
       }
     } catch (error) {
-      throw error;
+      setError(error);
     }
   };
 
@@ -188,8 +206,34 @@ const index = () => {
             {meal.strYoutube && <Video meal={meal} />}
           </Animated.View>
         </View>
+      ) : error ? (
+        <SafeAreaView className='bg-white/10'>
+        <View className="w-full flex-1 h-screen justify-center items-center">
+          <Text className="text-neutral-700 font-psemibold">
+            Error: ${error.message}
+          </Text>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text className="font-pmedium text-blue-700">Go back</Text>
+          </TouchableOpacity>
+        </View>
+        </SafeAreaView>
       ) : (
-        <Text>Nothing to show</Text>
+        !loading &&
+        !meal &&
+        !error && (
+          <SafeAreaView className='bg-white/10'>
+          <View className="w-full flex-1 h-screen justify-center items-center">
+            <Text className="text-neutral-700 font-psemibold">
+              Wait 5 seconds...</Text>
+            <Text className="text-amber-400 font-pbold">
+              or
+            </Text>
+            <TouchableOpacity onPress={() => router.back()}>
+              <Text className="font-pmedium text-blue-700">Go back</Text>
+            </TouchableOpacity>
+          </View>
+          </SafeAreaView>
+        )
       )}
     </ScrollView>
   );
